@@ -1,7 +1,7 @@
 {
   "name": "my_irc",
   "version": "1.0.0",
-  "main": "js/server.js",
+  "main": "index.js",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js"
