@@ -1,10 +1,20 @@
-var http = require('http')
+const path = require('path');
+const http = require('http');
 const express = require ('express');
-const path = require('path')
-const app = express()
-const router = express.Router();
-router.get('/',function(req,res){
-    res.sendFile(path.join('/home/meir/Downloads/first-year/my_irc' + '/views/index.html'))
+const socketio = require('socket.io');
+
+const app = express();
+const server = http.createServer(app);
+const io = socketio(server);
+
+// change le dossier "views" en dossier statique 
+app.use(express.static(path.join(__dirname, 'views')));
+
+// Se lance quand un client se connecte 
+io.on('connection', socket => {
+    console.log('Nouvelle Connexion Web socket')
 });
-app.use('/',router);
-app.listen(1337);
+
+const PORT = 1337 || process.env.PORT;
+
+server.listen(PORT, () => console.log(`Le serveur utilise le port ${PORT}`));
