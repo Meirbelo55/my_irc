@@ -1,12 +1,10 @@
 var http = require('http')
 const express = require ('express');
-const app = express();
-app.set('views','./views')
-app.set('view engine', 'js')
-app.get('/',function(req,res){
-    res.render('index.js')
-})
-httpServer = http.createServer(function(req,res){
-    res.end('bonjour');
-})
-httpServer.listen(1337);
+const path = require('path')
+const app = express()
+const router = express.Router();
+router.get('/',function(req,res){
+    res.sendFile(path.join('/home/meir/Downloads/first-year/my_irc' + '/views/index.html'))
+});
+app.use('/',router);
+app.listen(1337);
