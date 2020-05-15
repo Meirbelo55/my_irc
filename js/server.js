@@ -1,16 +1,19 @@
 var http = require('http')
+var io = require('socket.io')(http);
 const express = require('express');
 const path = require('path');
 const app = express();
-var server = http.createServer(app);
-var io = require ('socket.io').listen(server);
+const server = http.createServer(app);
 const router = express.Router();
 router.get('/',function(req,res){
-    res.sendFile(path.join('/home/meir/Downloads/first-year/my_irc' + '/views/index.html'))
+    res.sendFile(path.join(__dirname + '/js/index.html'))
 });
 io.on('connexion',(socket) => {
     console.log('un user est connecter');
+    socket.on('disconnect', () => {
+        console.log('user disconnected');
+    });
 })
-//console.log(io);
+
 app.use('/',router);
-app.listen(1337);
+server.listen(3000)
