@@ -14,6 +14,9 @@
     </style>
   </head>
   <body>
+  <span style="text-align: right" id="online" class="container">
+
+  </span>
     <ul id="messages"></ul>
     <form action="">
       <input type="text" id="username" autocomplete="off" placeholder="renseignez votre nom" />
@@ -34,9 +37,14 @@
         return false;
       });
       socket.on('username', function (username) {
-          $('#messages').append($('<h1>').text(username));
+        $('#messages').append($('<h1>').text(username));
           socket.on('logged', function () {
-            $('#username').fadeOut();
+             if(username === '')  {
+               alert('rensignez votre nom');
+             }
+             else {
+               $('#username').fadeOut();
+             }
           })
       });
 
@@ -54,11 +62,12 @@
         }
       });
 
-      socket.on('newuser',function(client,msg)  {
-        //console.log(msg);
-       // alert('Reveillez vous '+client+ ' debarque');
-       //$('#messages').append($('<h1>').text(client));
-       //$('#messages').appedn($('<h1>').text(msg))
+      socket.on('newuser',function(client)  {
+        //alert('Reveillez vous '+client+ ' debarque');
+        if(client !== '') {
+          $('#online').append($('<h1>').text(client + ' has been connected'));
+          //$('#messages').append($('<h1>').text(msg))
+        }
       })
     });
 
