@@ -14,14 +14,15 @@
     </style>
   </head>
   <body>
-  <span style="text-align: right" id="online" class="container">
-
-  </span>
+  <div style="text-align: right" id="online" class="container">
+  </div>
+  <div>
     <ul id="messages"></ul>
     <form action="">
       <input type="text" id="username" autocomplete="off" placeholder="renseignez votre nom" />
       <input type = text id="m" autocomplete="off" placeholder="tapez votre message" /><button>Send</button>
     </form>
+    </div>
   </body>
   <script src="/socket.io/socket.io.js">
   var socket = io();
@@ -40,23 +41,20 @@
         $('#messages').append($('<h1>').text(username));
           socket.on('logged', function () {
              if(username === '')  {
-               alert('rensignez votre nom');
+             //  alert('renseignez votre nom');
              }
              else {
                $('#username').fadeOut();
              }
           })
       });
-
-
       $('form').submit(function(e) {
         e.preventDefault();
         socket.emit('chat message', $('#m').val());
         $('#m').val('');
         return false;
       });
-
-      socket.on('chat message', function (msg) {
+      socket.on('chat message', function (msg,client) {
         if(msg !== '') {
           $('#messages').append($('<li>').text(msg));
         }
@@ -69,6 +67,7 @@
           //$('#messages').append($('<h1>').text(msg))
         }
       })
+
     });
 
   </script>
