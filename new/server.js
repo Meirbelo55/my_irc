@@ -10,25 +10,32 @@ app.get('/', (req, res) => {
 
 let allusers = {};
 
+//connection
 io.sockets.on('connection', (socket) => {
     console.log('a user connected');
+    //deconnection
     socket.on('disconnect',() => {
-    console.log('user disconneted');
+        console.log('user disconneted');
     })
+    //message
   socket.on('chat message',(msg) => {
     io.emit('chat message', msg);
   })
 })
+//stoker et parcourir les username
 io.sockets.on('connection',(socket) => {
-  var client = false;
+  //var client = false;
   for(var k in allusers) {
     socket.emit('newuser',allusers[k]);
   }
+  //username
   socket.on('username',(username) => {
     client = username;
+
     io.sockets.emit('username',username);
       socket.emit('logged');
       allusers[client] = client;
+
     io.sockets.emit('newuser', client);
   })
 })

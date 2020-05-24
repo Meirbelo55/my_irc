@@ -30,6 +30,7 @@
   </script>
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script>
+    //js
     $(function () {
       var socket = io();
       $('form').submit(function(e) {
@@ -39,14 +40,9 @@
         return false;
       });
       socket.on('username', function (username) {
-        $('#messages').append($('<h1>').text(username));
+          $('#messages').append($('<h1>').text(username));
           socket.on('logged', function () {
-             if(username === '')  {
-             //  alert('renseignez votre nom');
-             }
-             else {
-               $('#username').fadeOut();
-             }
+            $('#username').fadeOut();
           })
       });
       $('form').submit(function(e) {
@@ -55,18 +51,16 @@
         $('#m').val('');
         return false;
       });
-      socket.on('chat message', function (msg,client) {
-        if(msg !== '') {
+      socket.on('chat message', function (msg,username) {
+        if(msg === '') {
+          alert('ecrivez votre message')
+        }
+        else {
           $('#messages').append($('<li>').text(msg));
         }
       });
-
       socket.on('newuser',function(client)  {
-        //alert('Reveillez vous '+client+ ' debarque');
-        if(client !== '') {
-          $('#online').append($('<h1>').text(client + ' has been connected'));
-          //$('#messages').append($('<h1>').text(msg))
-        }
+          $('#online').append($('<h3>').text(client));
       })
     });
   </script>
